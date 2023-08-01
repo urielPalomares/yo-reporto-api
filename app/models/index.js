@@ -22,5 +22,6 @@ db.sequelize = sequelize;
 
 db.users = require("./user.model.js")(sequelize, Sequelize);
 db.governments = require("./government.model.js")(sequelize, Sequelize);
+db.governmentAreas = require("./government-area.model.js")(sequelize, Sequelize);
 
 module.exports = db;

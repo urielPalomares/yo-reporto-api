@@ -10,13 +10,16 @@ module.exports = app => {
   router.get("/", users.findAll);
 
   // Retrieve all not-verified Users
-  router.get("/not-verified", users.findAllPublished);
+  router.get("/not-verified", users.getAllNotVerified);
 
   // Retrieve a single User with id
   router.get("/:id", users.findOne);
 
   // Update a User with id
   router.put("/:id", users.update);
+
+  // Verified a User with id
+  router.put("/:id/verify", users.verify);
 
   // Delete a User with id
   router.delete("/:id", users.delete);

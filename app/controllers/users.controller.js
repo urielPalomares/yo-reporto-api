@@ -98,6 +98,34 @@ exports.update = (req, res) => {
     });
 };
 
+// Verify a User by the id in the request
+exports.verify = (req, res) => {
+  const id = req.params.id;
+
+  const body = {
+    verified: true
+  }
+  User.update(body, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "User was verified successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot verify User with id=${id}. Maybe User was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error verify User with id=" + id
+      });
+    });
+};
+
 // Delete a User with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
@@ -141,7 +169,7 @@ exports.deleteAll = (req, res) => {
 };
 
 // find all not verified User
-exports.findAllPublished = (req, res) => {
+exports.getAllNotVerified = (req, res) => {
   User.findAll({ where: { verified: false } })
     .then(data => {
       res.send(data);

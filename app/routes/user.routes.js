@@ -1,3 +1,5 @@
+const { validateJWT } = require("../middleware/jwt.middleware.js");
+
 module.exports = app => {
   const users = require("../controllers/users.controller.js");
 
@@ -7,7 +9,7 @@ module.exports = app => {
   router.post("/", users.create);
 
   // Retrieve all Users
-  router.get("/", users.findAll);
+  router.get("/", validateJWT, users.findAll);
 
   // Retrieve all not-verified Users
   router.get("/not-verified", users.getAllNotVerified);

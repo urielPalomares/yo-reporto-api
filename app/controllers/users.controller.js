@@ -1,9 +1,11 @@
+const bcryptjs = require('bcryptjs');
+const { generateJWT } = require('../helpers/jwt.helper');
 const db = require("../models");
 const User = db.users;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new User
-exports.create = (req, res) => {
+exports.create = async(req, res) => {
   // Validate request
   if (!req.body.name) {
     res.status(400).send({
@@ -12,6 +14,10 @@ exports.create = (req, res) => {
     return;
   }
 
+  //Password
+  const salt = bcryptjs.genSaltSync();
+  const password = bcryptjs.hashSync(req.body.password, salt);
+
   // Create a User
   const user = {
     name: req.body.name,
@@ -19,13 +25,17 @@ exports.create = (req, res) => {
     address: req.body.address,
     email: req.body.email,
     phone: req.body.phone,
-    verified: false
+    verified: false,
+    password
   };
 
   // Save User in the database
   User.create(user)
-    .then(data => {
-      res.send(data);
+    .then(async data => {
+      console.log(data.id);
+      const token = await generateJWT(data.id);
+      console.log(token);
+      res.send({data, token});
     })
     .catch(err => {
       res.status(500).send({

@@ -31,3 +31,4 @@ junit.xml
 
 # Environment
 app/config/db.config.js
+.env

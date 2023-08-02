@@ -36,10 +36,11 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to yo-reporto-api application." });
 });
 
+require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/government.routes")(app);
 require("./app/routes/government-area.routes")(app);
-require("./app/routes/auth.routes")(app);
+require("./app/routes/incident-category.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

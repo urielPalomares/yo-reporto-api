@@ -22,8 +22,10 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = require("./user.model.js")(sequelize, Sequelize);
+db.incidents = require("./incident.model.js")(sequelize, Sequelize);
 db.governments = require("./government.model.js")(sequelize, Sequelize);
 db.governmentAreas = require("./government-area.model.js")(sequelize, Sequelize);
 db.incidentCategories = require("./incident-category.model.js")(sequelize, Sequelize);
+db.incidentStatuses = require("./incident-statuses.model.js")(sequelize, Sequelize);
 
 module.exports = db;

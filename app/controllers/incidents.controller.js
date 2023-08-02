@@ -15,7 +15,13 @@ exports.create = (req, res) => {
   // Create a Incident
   const incident = {
     title: req.body.title,
-    active: true,
+    description: req.body.description,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    image: req.body.image,
+    userId: req.body.userId,
+    incidentStatusId: req.body.incidentStatusId,
+    incidentCategoryId: req.body.incidentCategoryId,
   };
 
   // Save Incident in the database

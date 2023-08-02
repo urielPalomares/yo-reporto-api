@@ -7,26 +7,14 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     incidentStatusId: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'incident-statuses',
-        key: 'id'
-      }
+      type: Sequelize.INTEGER
     },
     incidentCategoryId: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'incident-categories',
-        key: 'id'
-      }
+      type: Sequelize.INTEGER
     },
     userId: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'users',
-        key: 'id'
-      }
-    },
+      type: Sequelize.INTEGER
+  },
     latitude: {
       type: Sequelize.STRING
     },
@@ -37,6 +25,23 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BLOB("long"),
     },
   });
+  
+  Incident.associate = function(models) {
+    Incident.belongsTo(models.users, {
+      foreignKey: 'userId',
+      as: 'user'
+    });
+
+    Incident.belongsTo(models.incidentCategories, {
+      foreignKey: 'incidentCategoryId',
+      as: 'category'
+    });
+
+    Incident.belongsTo(models.incidentStatuses, {
+      foreignKey: 'incidentStatusId',
+      as: 'status'
+    });
+  };
 
   return Incident;
 };

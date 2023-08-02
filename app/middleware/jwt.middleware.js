@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const db = require("../models");
 const User = db.users;
-const Op = db.Sequelize.Op;
 
 const validateJWT = async (req, res, next) => {
   const token = req.header('x-token');
@@ -17,11 +16,15 @@ const validateJWT = async (req, res, next) => {
 
     User.findByPk(uid)
     .then(data => {
-      console.log(data);
       if (data && data.verified) {
         // user authenticated
         next();
       } else {
+        if (!data.verified) {
+          res.status(401).send({
+            message: `You need to verify your account first`
+          });
+        }
         res.status(404).send({
           message: `Invalid token`
         });

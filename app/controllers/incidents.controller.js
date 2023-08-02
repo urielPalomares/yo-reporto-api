@@ -81,7 +81,26 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Incident.findByPk(id)
+  Incident.findByPk(id, {
+    attributes: ['id', 'title', 'description', 'incidentStatusId', 'incidentCategoryId', 'userId', 'latitude', 'longitude', 'image', 'createdAt'],
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: ['name', 'surname']
+      },
+      {
+        model: IncidentCategories,
+        as: 'category',
+        attributes: ['name']
+      },
+      {
+        model: IncidentStatuses,
+        as: 'status',
+        attributes: ['description']
+      },
+    ],
+  })
     .then((data) => {
       if (data) {
         res.send(data);

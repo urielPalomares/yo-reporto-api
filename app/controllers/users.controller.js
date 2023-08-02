@@ -32,9 +32,7 @@ exports.create = async(req, res) => {
   // Save User in the database
   User.create(user)
     .then(async data => {
-      console.log(data.id);
       const token = await generateJWT(data.id);
-      console.log(token);
       res.send({data, token});
     })
     .catch(err => {

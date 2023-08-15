@@ -4,7 +4,8 @@
   "description": "Yo reporto API",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon ./server.js"
+    "start": "node ./server.js",
+    "start:dev": "nodemon ./server.js"
   },
   "keywords": [
     "nodejs",

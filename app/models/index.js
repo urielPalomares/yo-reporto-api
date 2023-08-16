@@ -3,14 +3,10 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
   host: process.env.DB_HOST,
   dialect: process.env.DB_DIALECT,
-  operatorsAliases: false,
-  port: process.env.DB_PORT,
-
-  pool: {
-    max: parseInt(process.env.DB_POL_MAX),
-    min: parseInt(process.env.DB_POL_MIN),
-    acquire: process.env.DB_POL_ACQUIRE,
-    idle: process.env.DB_POL_IDLE
+  protocol: process.env.DB_DIALECT,
+  dialectOptions: {
+    ssl: true,
+    native:true
   }
 });
 

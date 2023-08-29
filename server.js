@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
 
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/metrics.routes")(app);
 require("./app/routes/incident.routes")(app);
 require("./app/routes/government.routes")(app);
 require("./app/routes/government-area.routes")(app);

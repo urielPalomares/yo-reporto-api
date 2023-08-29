@@ -3,19 +3,19 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  // Create a new category
+  // Create a new incident status
   router.post("/", statuses.create);
 
   // Retrieve all statuses
   router.get("/", statuses.findAll);
 
-  // Retrieve a single category with id
+  // Retrieve a single incident status with id
   router.get("/:id", statuses.findOne);
 
-  // Update a category with id
+  // Update a incident status with id
   router.put("/:id", statuses.update);
 
-  // Delete a category with id
+  // Delete a incident status with id
   router.delete("/:id", statuses.delete);
 
   app.use('/api/incident-statuses', router);

@@ -1,5 +1,7 @@
 const db = require('../models');
 const Incident = db.incidents;
+const IncidentStatuses = db.incidentStatuses;
+const incidentCategories = db.incidentCategories;
 const Op = db.Sequelize.Op;
 
 exports.get = async (req, res) => {
@@ -37,10 +39,13 @@ exports.get = async (req, res) => {
       count: incidents,
       currentWeek: incidentsCurrentWeek,
       lastWeek: incidentsLastWeek,
+      incidentsByStatus: await getIncidentsByStatus(),
+      incidentsByCategory: await getIncidentsByCategory(),
       difference
     }
     res.status(200).send(response);
   } catch (error) {
+    console.error(error);
     res.status(500).send({
       message: 'Error get metrics',
       error
@@ -48,14 +53,38 @@ exports.get = async (req, res) => {
   }
 };
 
-// async function getIncidentsByStatus() {
-//   Incident.findAll({
-//     group: ['incidentStatuses'],
-//     attributes: ['incidentStatuses', [sequelize.fn('COUNT', 'incidentStatuses'), 'TagCount']],
-//   }).then(function (incidents) {
-//     console.log('incidents', incidents)
-//     return incidents;
-//   });
-// }
+async function getIncidentsByStatus() {
+  return await Incident.findAll({
+    attributes: ['status.description', [db.Sequelize.fn('COUNT', 'status.id'), 'count']],
+    include: [{
+      model: IncidentStatuses,
+      as: 'status',
+      attributes: ['description']
+    }],
+    group: "status.id",
+    order: [[db.Sequelize.col("count"), "DESC"]],
+    raw: true
+  })
+  .then((data) => {
+    return data;
+  })
+}
+
+async function getIncidentsByCategory() {
+  return await Incident.findAll({
+    attributes: ['category.name', [db.Sequelize.fn('COUNT', 'category.id'), 'count']],
+    include: [{
+      model: incidentCategories,
+      as: 'category',
+      attributes: ['name']
+    }],
+    group: "category.id",
+    order: [[db.Sequelize.col("count"), "DESC"]],
+    raw: true
+  })
+  .then((data) => {
+    return data;
+  })
+}
 
 

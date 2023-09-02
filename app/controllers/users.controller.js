@@ -15,7 +15,7 @@ exports.create = async(req, res) => {
   }
 
   //Password
-  const salt = bcryptjs.genSaltSync();
+  const salt = bcryptjs.genSaltSync(10);
   const password = bcryptjs.hashSync(req.body.password, salt);
 
   // Create a User
@@ -85,7 +85,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  const salt = bcryptjs.genSaltSync();
+  const salt = bcryptjs.genSaltSync(10);
   req.body.password = bcryptjs.hashSync(req.body.password, salt);
 
   User.update(req.body, {

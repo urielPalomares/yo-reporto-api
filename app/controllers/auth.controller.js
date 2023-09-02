@@ -16,7 +16,7 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   // Save User in the database
-  User.findOne({ email })
+  User.findOne({ where: { email } })
     .then(async data => {
       const validPassword = bcryptjs.compareSync(password, data.password);
       if (!validPassword) {

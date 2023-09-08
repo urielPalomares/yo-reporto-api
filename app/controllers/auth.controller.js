@@ -28,8 +28,9 @@ exports.login = async (req, res) => {
       }
 
       const token = await generateJWT(data.id);
+      const username = data.name;
 
-      return res.status(200).json({ token });
+      return res.status(200).json({ username, token });
     })
     .catch(err => {
       res.status(500).send({
